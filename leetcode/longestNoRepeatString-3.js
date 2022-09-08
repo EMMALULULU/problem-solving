@@ -23,3 +23,29 @@ var lengthOfLongestSubstring = function (s) {
   }
   return maxLength;
 };
+
+// using ES6 Map
+
+/**
+ * @param {string} s
+ * @return {number}
+ */
+var lengthOfLongestSubstring = function (s) {
+  let maxLength = 0;
+  let pointer = 0;
+  let letterMap = new Map();
+  for (let i = 0; i < s.length; i++) {
+    let curChar = s[i];
+    if (letterMap.has(curChar)) {
+      pointer = letterMap.get(curChar) + 1;
+      for (let char of letterMap.keys()) {
+        if (letterMap.get(char) < pointer) {
+          letterMap.delete(char);
+        }
+      }
+    }
+    letterMap.set(curChar, i);
+    maxLength = Math.max(letterMap.size, maxLength);
+  }
+  return maxLength;
+};
